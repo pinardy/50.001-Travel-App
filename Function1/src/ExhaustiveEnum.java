@@ -28,7 +28,7 @@ public class ExhaustiveEnum {
         }
         //remove first element
         Enum[] myEnums = enums.remove(0);
-        List<List<Enum>> out = new ArrayList<>();
+        List<List<Enum>> output = new ArrayList<>();
         for (Enum e : myEnums) {
             // recursive call
             List<List<Enum>> list = permutation(enums);
@@ -36,16 +36,16 @@ public class ExhaustiveEnum {
             //for each list get from recursion adding element e
             for (List<Enum> list_enum : list) {
                 list_enum.add(0, e);
-                out.add(list_enum);
+                output.add(list_enum);
             }
             if(list.isEmpty()){
                 List<Enum> list_enum = new ArrayList<>();
                 list_enum.add(e);
-                out.add(list_enum);
+                output.add(list_enum);
             }
         }
         enums.add(0, myEnums); //Backtracking
-        return out;
+        return output;
     }
 
     public static void main(String[] args) {

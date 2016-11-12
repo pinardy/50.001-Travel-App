@@ -251,7 +251,7 @@ public class DestinationsData {
         // COST[mode][from][to] or TIME[mode][from][to]
 
         int mode = 2; // 0: walking, 1: public transport, 2: taxi
-        int from = 0;
+        int from = 3;
         int to = 1;
 
         System.out.println("For method: " + modeOfTransport.get(mode) + "\n" + "Cost from "
