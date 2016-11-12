@@ -1,0 +1,292 @@
+package com.company;
+
+import java.sql.Array;
+import java.util.*;
+
+import com.company.DestinationsData.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.company.DestinationsData.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+	// write your code here
+        my_permutationOf(new ArrayList<String>() {
+            { add("Hello");
+            }
+        }, 4, null, true);
+
+        ArrayList<Integer> s = new ArrayList<>();
+        s.add(1);
+        s.add(2);
+        s.add(3);
+        s.add(4);
+        s.add(5);
+
+        ArrayList<ArrayList<Integer>> paths = generatePermutations(s);
+        //System.out.println(processPath(paths));
+
+
+        //System.out.println("TIME: " +TIME[1][2][3]);
+        ArrayList<ArrayList<Integer>> newpaths = processPath(paths);
+        //System.out.println(testAggregateCostsV5(newpaths));
+        ArrayList<TripObject>tripList = testAggregateCostsV5(newpaths);
+
+
+        System.out.println(tripList.get(0).getTripSignature());
+        System.out.println(tripList.get(0).getTotalCost());
+      
+    }
+
+
+    public static ArrayList<ArrayList<Integer>> generatePermutations(ArrayList<Integer> destinations)
+    {
+        System.out.println("Starting");
+        if(destinations.size() == 1)
+        {
+            System.out.println("destinations "+destinations);
+            ArrayList<ArrayList<Integer>> permutelists = new ArrayList<ArrayList<Integer>>();
+            permutelists.add(destinations);
+            System.out.println("returning lists");
+            System.out.println(permutelists);
+
+
+
+            return permutelists;//Weird... does not end the program
+
+
+
+        }
+
+        //Note that arrlist.remove(int index) returns the element removed!
+        //It mutates the arrlist
+        System.out.println("after if");
+        Integer lastele = destinations.remove(0); //remove the first element from destinations
+        System.out.println("s.remove: "+lastele);
+
+
+
+
+        ArrayList<ArrayList<Integer>> oldpermutelists = generatePermutations(destinations);
+        System.out.println("old"+oldpermutelists);
+
+
+
+
+        //System.out.println("post recursive call");
+        ArrayList<ArrayList<Integer>> newpermutelists = new ArrayList<ArrayList<Integer>>();
+        //System.out.println("entering for loop");
+
+
+        System.out.println("old permute list: " + oldpermutelists);
+
+
+        for(ArrayList<Integer> list : oldpermutelists)
+        {
+            System.out.println("list: " + list);
+            //Not modifying the array list of arraylists itself, but the ararylist elements
+            for(int i=0; i<=list.size(); i++)
+            {
+                //Note newlist only exists within the scope of the for loop
+                //With each iteration a new newlist object is created
+                //newlist thus points to a new object each time, which is what we want
+                //We don't want to add list directly as any subsequent modifications
+                //would modify the same objectSystem.out.println("Total time and cost: " + getTotalTime(modes_final,it_optNN)+ " " + getTotalCost(modes_final,it_optNN));
+
+                ArrayList<Integer> newlist = new ArrayList<Integer>(list);
+
+
+                newlist.add(i,lastele);
+
+
+                //System.out.println("lastele: " + lastele +" i: " +i);
+
+
+                //Test the start and the end appending
+
+
+                //System.out.println("newlist " +newlist);
+
+
+                newpermutelists.add(newlist);
+                //System.out.println("newpermutelists: " + newpermutelists);
+            }
+        }
+
+
+
+
+        return newpermutelists;
+    }
+
+    public static ArrayList<ArrayList<Integer>> processPath(ArrayList<ArrayList<Integer>>pathLists) {
+        for (int i = 0; i < pathLists.size(); i++) {
+            ArrayList array = pathLists.get(i);
+            array.add(0, 0);
+            array.add(0);
+            System.out.println(array);
+
+        }
+        return pathLists;
+    }
+
+
+
+    public static ArrayList<TripObject> testAggregateCostsV5 (ArrayList<ArrayList<Integer>>pathLists) {
+        ArrayList<TripObject> costsList =new ArrayList<>();
+
+        for (int i = 0; i < pathLists.size(); i++) {
+            ArrayList array = pathLists.get(i);
+            System.out.println("new path!");
+            double cost = 0;
+            int time = 0;
+            for (int a = 0; a < 3; a++) {
+                int source = (int) array.get(0);
+                int destination = (int) array.get(1);
+                int path1time = TIME[a][source][destination];
+                double path1cost = COST[a][source][destination];
+
+                for (int b = 0; b<3; b++) {
+                    int source1 = (int) array.get(1);
+                    int destination1 = (int) array.get(2);
+                    int path2time = TIME[b][source1][destination1];
+                    double path2cost = COST[b][source1][destination1];
+
+
+                    for (int c = 0; c < 3; c++) {
+                        int source2 = (int) array.get(2);
+                        int destination2 = (int) array.get(3);
+                        int path3time = TIME[c][source2][destination2];
+                        double path3cost = COST[c][source2][destination2];
+
+                        for (int d = 0; d < 3; d++) {
+                            int source3 = (int) array.get(3);
+                            int destination3 = (int) array.get(4);
+                            int path4time = TIME[d][source3][destination3];
+                            double path4cost = COST[d][source3][destination3];
+
+
+                            for (int e = 0; e < 3; e++) {
+                                //Where all the magic happens!
+                                System.out.println("a: "+a +" b: "+ b +" c: "+c +" d: " +d +" e: "+e);
+                                int source4 = (int) array.get(4);
+                                int destination4 = (int) array.get(5);
+                                int path5time = TIME[e][source4][destination4];
+                                double path5cost = COST[e][source4][destination4];
+
+                                for (int f = 0; f < 3; f++) {
+                                    //Where all the magic happens!
+                                    System.out.println("a: " + a + " b: " + b + " c: " + c + " d: " + d + " e: " + e);
+                                    int source5 = (int) array.get(5);
+                                    int destination5 = (int) array.get(6);
+                                    int path6time = TIME[f][source5][destination5];
+                                    double path6cost = COST[e][source5][destination5];
+
+                                    String mode = modeOfTransport.get(a);
+                                    String mode1 = modeOfTransport.get(b);
+                                    String mode2 = modeOfTransport.get(c);
+                                    String mode3 = modeOfTransport.get(d);
+                                    String mode4 = modeOfTransport.get(e);
+                                    String mode5 = modeOfTransport.get(f);
+
+
+
+
+                                    String origin = DATAMAP2.get(source);
+                                    String dest1 = DATAMAP2.get(destination);
+                                    String dest2 = DATAMAP2.get(destination1);
+                                    String dest3 = DATAMAP2.get(destination2);
+                                    String dest4 = DATAMAP2.get(destination3);
+                                    String dest5 = DATAMAP2.get(destination4);
+                                    String dest6 = DATAMAP2.get(destination5);
+                                    String trip = (origin+"to "+dest1+": "+mode +"\n"+ dest1+"to " +dest2+ ": "+mode1+"\n"+dest2+ "to "+dest3+": "+mode2 +"\n"+ dest3+ "to " +dest4+": "+mode3+"\n" +dest4 +"to "+dest5+": " + mode4+"\n"+       dest5+"to " +dest6 + ": "+mode5 );
+                                    double totalCost = path1cost+path2cost+path3cost+path4cost+path5cost+path6cost;
+                                    System.out.println("Total trip: " + trip);
+
+
+                                    int totalTime = path1time + path2time + path3time + path4time + path5time + path6time;
+                                    String test = path1time + " " + path2time + " " + path3time + " " + path4time + " " + path5time + " "+path6time;
+                                    System.out.println(test);
+                                    String result = "Time cost" + totalTime;
+                                    //costsList.add(result);
+                                    System.out.println("Total cost: "+totalCost);
+
+                                    if(totalCost<20){
+                                        costsList.add(new TripObject(trip,totalTime,totalCost));
+                                        //TODO account for the stupid mode of transport
+                                    }
+                                    else{
+                                        System.out.println("denied");
+                                        continue;
+                                    }
+                                }
+
+
+                            }
+
+                        }
+
+                    }
+                }
+
+
+
+
+            }
+
+        }
+
+        Collections.sort(costsList);
+        return costsList;
+    }
+
+
+}
+
+class TripObject implements Comparable<TripObject>{
+    private String tripSignature;
+    //You will want private data fields which are only modifiable by get/set
+    private  int totalTime = 0;// default value
+    private  double totalCost =0;
+
+    //Note that if more than one constructor exists, you must define the no arg constuctor manually,
+    TripObject(String trip, int time, double cost){
+        this.tripSignature = trip;
+        this.totalTime = time;
+        this.totalCost = cost;
+    }
+    public String getTripSignature() {
+        return tripSignature;// Accessor
+    }
+    public int getTotalTime() {
+        return totalTime;// Accessor
+    }
+    public double getTotalCost() {
+        return totalCost;// Accessor
+    }
+
+    public String toString() {
+        //When you print a class object you use toString
+        return "total time"+ totalTime;
+    }
+
+
+    @Override
+    public int compareTo(TripObject that) {
+        if (this.totalTime > that.totalTime)
+            return 1;
+        else if (this.totalTime == that.totalTime)
+            return 0;
+        else
+            return -1;
+    }
+
+
+    //Collections.sort(List); Use this method to call
+
+
+}
+
+
