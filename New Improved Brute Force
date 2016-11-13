@@ -1,8 +1,8 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.sql.Array;
+import java.util.*;
+
 import com.company.DestinationsData.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13,26 +13,46 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-        my_permutationOf(new ArrayList<String>() {
-            { add("Hello");
-            }
-        }, 4, null, true);
+
 
         ArrayList<Integer> s = new ArrayList<>();
         s.add(1);
-        s.add(2);
+        //s.add(2);
         s.add(3);
-        s.add(4);
+        //s.add(4);
         s.add(5);
 
-        ArrayList<ArrayList<Integer>> paths = generatePermutations(s);
+
         //System.out.println(processPath(paths));
 
 
-        System.out.println("TIME: " +TIME[1][2][3]);
-        ArrayList<ArrayList<Integer>> newpaths = processPath(paths);
-        System.out.println(testAggregateCostsV2(newpaths));
+        //System.out.println("TIME: " +TIME[1][2][3]);
 
+        //System.out.println(testAggregateCostsV5(newpaths));
+        TripObject o = fullFunction(s);
+        System.out.println(o.getTripList());
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+    public static TripObject fullFunction(ArrayList<Integer> arrayList){
+        ArrayList<ArrayList<Integer>> paths = generatePermutations(arrayList);
+        ArrayList<ArrayList<Integer>> newpaths = processPath(paths);
+        ArrayList<TripObject>tripList = chooseAggregateCostsMethod(newpaths);
+        System.out.println(tripList.get(0).getTripSignature());
+        System.out.println(tripList.get(0).getTripList());
+        System.out.println(tripList.get(0).getTotalCost());
+
+        return tripList.get(0);
     }
 
     public static void my_permutationOf(List<String> uniqueList, int permutationSize, List<String> permutation, boolean only) {
@@ -104,9 +124,9 @@ public class Main {
 
 
 
-        System.out.println("post recursive call");
+        //System.out.println("post recursive call");
         ArrayList<ArrayList<Integer>> newpermutelists = new ArrayList<ArrayList<Integer>>();
-        System.out.println("entering for loop");
+        //System.out.println("entering for loop");
 
 
         System.out.println("old permute list: " + oldpermutelists);
@@ -130,17 +150,17 @@ public class Main {
                 newlist.add(i,lastele);
 
 
-                System.out.println("lastele: " + lastele +" i: " +i);
+                //System.out.println("lastele: " + lastele +" i: " +i);
 
 
                 //Test the start and the end appending
 
 
-                System.out.println("newlist " +newlist);
+                //System.out.println("newlist " +newlist);
 
 
                 newpermutelists.add(newlist);
-                System.out.println("newpermutelists: " + newpermutelists);
+                //System.out.println("newpermutelists: " + newpermutelists);
             }
         }
 
@@ -161,23 +181,40 @@ public class Main {
         return pathLists;
     }
 
-    public static ArrayList<Double> testAggregateCosts (ArrayList<ArrayList<Integer>>pathLists) {
-        ArrayList<Double> costsList =new ArrayList<>();
-        for (int i = 0; i < pathLists.size(); i++) {
-            ArrayList array = pathLists.get(i);
-            double cost = 0;
-            for (int j = 0; j < array.size()-1; j++) {
-                cost = cost +COST[1][j][j+1];
-                System.out.println("Cost added: "+ cost);
-            }
-            costsList.add(cost);
-            System.out.println(cost);
+    public static ArrayList<TripObject> chooseAggregateCostsMethod (ArrayList<ArrayList<Integer>>pathLists){
+        int i = pathLists.get(0).size();
+        System.out.println("Value of i: "+i);
+        switch (i) {
+
+            case 3:
+                return testAggregateCostsV2(pathLists);
+
+            case 4:
+                return  testAggregateCostsV3(pathLists);
+
+            case 5:
+                return testAggregateCostsV4(pathLists);
+
+            case 6:
+                return testAggregateCostsV5(pathLists);
+
+            case 7:
+                System.out.println("chosen");
+                return testAggregateCostsV6(pathLists);
+
+            default: i = 0;
+                break;
         }
-        return costsList;
+        return testAggregateCostsV6(pathLists);
     }
 
-    public static ArrayList<String> testAggregateCostsV2 (ArrayList<ArrayList<Integer>>pathLists) {
-        ArrayList<String> costsList =new ArrayList<>();
+
+
+
+
+
+    public static ArrayList<TripObject> testAggregateCostsV2 (ArrayList<ArrayList<Integer>>pathLists) {
+        ArrayList<TripObject> costsList =new ArrayList<>();
 
         for (int i = 0; i < pathLists.size(); i++) {
             ArrayList array = pathLists.get(i);
@@ -196,6 +233,156 @@ public class Main {
                     int path2time = TIME[b][source1][destination1];
                     double path2cost = COST[b][source1][destination1];
 
+                        //Where all the magic happens!
+                        System.out.println("a: " + a + " b: " + b + " c: ");
+                        String mode = modeOfTransport.get(a);
+                        String mode1 = modeOfTransport.get(b);
+
+
+
+                        String origin = DATAMAP2.get(source);
+                        String dest1 = DATAMAP2.get(destination);
+                        String dest2 = DATAMAP2.get(destination1);
+
+
+                        String trip = (origin+"to "+dest1+": "+mode +"\n"+ dest1+"to " +dest2+ ": "+mode1+"\n");
+                        double totalCost = path1cost+path2cost;
+                        //System.out.println("Total trip: " + trip);
+
+
+                        int totalTime = path1time + path2time;
+                        String test = path1time + " " + path2time;
+                        System.out.println(test);
+                        String result = "Time cost" + totalTime;
+                        //costsList.add(result);
+                        //System.out.println("Total cost: "+totalCost);
+                    ArrayList<String> tripList = new ArrayList<>();
+                    tripList.add(origin+" to "+dest1+": "+mode);
+                    tripList.add(dest1+" to " +dest2+ ": "+mode1);
+
+                        if(totalCost<20){
+                            TripObject tripObject = new TripObject(trip,totalTime,totalCost);
+                            tripObject.setTripList(tripList);
+                            costsList.add(tripObject);                            //TODO account for the stupid mode of transport
+                        }
+                        else{
+                            System.out.println("denied");
+                            continue;
+                        }
+
+                }
+            }
+        }
+        Collections.sort(costsList);
+        return costsList;
+    }
+
+
+    public static ArrayList<TripObject> testAggregateCostsV3 (ArrayList<ArrayList<Integer>>pathLists) {
+        ArrayList<TripObject> costsList =new ArrayList<>();
+
+        for (int i = 0; i < pathLists.size(); i++) {
+            ArrayList array = pathLists.get(i);
+            System.out.println("new path!");
+            double cost = 0;
+            int time = 0;
+            for (int a = 0; a < 3; a++) {
+                int source = (int) array.get(0);
+                int destination = (int) array.get(1);
+                int path1time = TIME[a][source][destination];
+                double path1cost = COST[a][source][destination];
+
+                for (int b = 0; b<3; b++) {
+                    int source1 = (int) array.get(1);
+                    int destination1 = (int) array.get(2);
+                    int path2time = TIME[b][source1][destination1];
+                    double path2cost = COST[b][source1][destination1];
+
+                    for (int c = 0; c < 3; c++) {
+                        int source2 = (int) array.get(2);
+                        int destination2 = (int) array.get(3);
+                        int path3time = TIME[c][source2][destination2];
+                        double path3cost = COST[c][source2][destination2];
+
+                            //Where all the magic happens!
+                            System.out.println("a: " + a + " b: " + b + " c: " + c  );
+                            String mode = modeOfTransport.get(a);
+                            String mode1 = modeOfTransport.get(b);
+                            String mode2 = modeOfTransport.get(c);
+
+
+
+                            String origin = DATAMAP2.get(source);
+                            String dest1 = DATAMAP2.get(destination);
+                            String dest2 = DATAMAP2.get(destination1);
+                            String dest3 = DATAMAP2.get(destination2);
+
+
+
+
+                            String trip = (origin+"to "+dest1+": "+mode +"\n"+ dest1+"to " +dest2+ ": "+mode1+"\n"+dest2+ "to "+dest3+": "+mode2 +"\n");
+                            double totalCost = path1cost+path2cost+path3cost;
+                            //System.out.println("Total trip: " + trip);
+
+                        ArrayList<String> tripList = new ArrayList<>();
+                        tripList.add(origin+" to "+dest1+": "+mode);
+                        tripList.add(dest1+" to " +dest2+ ": "+mode1);
+                        tripList.add(dest2+ " to "+dest3+": "+mode2);
+
+
+                            int totalTime = path1time + path2time + path3time   ;
+                            String test = path1time + " " + path2time + " " + path3time  ;
+                            System.out.println(test);
+                            String result = "Time cost" + totalTime;
+                            //costsList.add(result);
+                            //System.out.println("Total cost: "+totalCost);
+
+                            if(totalCost<20){
+                                TripObject tripObject = new TripObject(trip,totalTime,totalCost);
+                                tripObject.setTripList(tripList);
+                                costsList.add(tripObject);
+                                //TODO account for the stupid mode of transport
+                            }
+                            else{
+                                System.out.println("denied");
+                                continue;
+                            }
+
+
+
+
+
+
+
+                    }
+                }
+            }
+        }
+        Collections.sort(costsList);
+        return costsList;
+    }
+
+
+
+    public static ArrayList<TripObject> testAggregateCostsV4 (ArrayList<ArrayList<Integer>>pathLists) {
+        ArrayList<TripObject> costsList =new ArrayList<>();
+
+        for (int i = 0; i < pathLists.size(); i++) {
+            ArrayList array = pathLists.get(i);
+            System.out.println("new path!");
+            double cost = 0;
+            int time = 0;
+            for (int a = 0; a < 3; a++) {
+                int source = (int) array.get(0);
+                int destination = (int) array.get(1);
+                int path1time = TIME[a][source][destination];
+                double path1cost = COST[a][source][destination];
+
+                for (int b = 0; b<3; b++) {
+                    int source1 = (int) array.get(1);
+                    int destination1 = (int) array.get(2);
+                    int path2time = TIME[b][source1][destination1];
+                    double path2cost = COST[b][source1][destination1];
 
                     for (int c = 0; c < 3; c++) {
                         int source2 = (int) array.get(2);
@@ -210,9 +397,204 @@ public class Main {
                             double path4cost = COST[d][source3][destination3];
 
 
-                            for (int e = 0; e < 3; e++) {
+
+
                                 //Where all the magic happens!
-                                System.out.println("a: "+a +" b: "+ b +" c: "+c +" d: " +d +" e: "+e);
+                                System.out.println("a: " + a + " b: " + b + " c: " + c + " d: " + d );
+                                String mode = modeOfTransport.get(a);
+                                String mode1 = modeOfTransport.get(b);
+                                String mode2 = modeOfTransport.get(c);
+                                String mode3 = modeOfTransport.get(d);
+
+
+                                String origin = DATAMAP2.get(source);
+                                String dest1 = DATAMAP2.get(destination);
+                                String dest2 = DATAMAP2.get(destination1);
+                                String dest3 = DATAMAP2.get(destination2);
+                                String dest4 = DATAMAP2.get(destination3);
+
+                            ArrayList<String> tripList = new ArrayList<>();
+                            tripList.add(origin+" to "+dest1+": "+mode);
+                            tripList.add(dest1+" to " +dest2+ ": "+mode1);
+                            tripList.add(dest2+ " to "+dest3+": "+mode2);
+                            tripList.add(dest3+ " to "+dest4+": "+mode3);
+
+                                String trip = (origin+"to "+dest1+": "+mode +"\n"+ dest1+"to " +dest2+ ": "+mode1+"\n"+dest2+ "to "+dest3+": "+mode2 +"\n"+ dest3+ "to " +dest4+": "+mode3+"\n" );
+                                double totalCost = path1cost+path2cost+path3cost+path4cost;
+                                //System.out.println("Total trip: " + trip);
+
+
+                                int totalTime = path1time + path2time + path3time + path4time  ;
+                                String test = path1time + " " + path2time + " " + path3time + " " + path4time ;
+                                System.out.println(test);
+                                String result = "Time cost" + totalTime;
+                                //costsList.add(result);
+                                //System.out.println("Total cost: "+totalCost);
+
+                                if(totalCost<20){
+
+                                    //TODO account for the stupid mode of transport
+                                    TripObject tripObject = new TripObject(trip,totalTime,totalCost);
+                                    tripObject.setTripList(tripList);
+                                    costsList.add(tripObject);
+                                }
+                                else{
+                                    System.out.println("denied");
+                                    continue;
+                                }
+
+
+
+
+
+                        }
+
+                    }
+                }
+            }
+        }
+        Collections.sort(costsList);
+        return costsList;
+    }
+
+
+
+
+    public static ArrayList<TripObject> testAggregateCostsV5 (ArrayList<ArrayList<Integer>>pathLists) {
+        ArrayList<TripObject> costsList =new ArrayList<>();
+
+        for (int i = 0; i < pathLists.size(); i++) {
+            ArrayList array = pathLists.get(i);
+            System.out.println("new path!");
+            double cost = 0;
+            int time = 0;
+            for (int a = 0; a < 3; a++) {
+                int source = (int) array.get(0);
+                int destination = (int) array.get(1);
+                int path1time = TIME[a][source][destination];
+                double path1cost = COST[a][source][destination];
+
+                for (int b = 0; b<3; b++) {
+                    int source1 = (int) array.get(1);
+                    int destination1 = (int) array.get(2);
+                    int path2time = TIME[b][source1][destination1];
+                    double path2cost = COST[b][source1][destination1];
+
+                    for (int c = 0; c < 3; c++) {
+                        int source2 = (int) array.get(2);
+                        int destination2 = (int) array.get(3);
+                        int path3time = TIME[c][source2][destination2];
+                        double path3cost = COST[c][source2][destination2];
+
+                        for (int d = 0; d < 3; d++) {
+                            int source3 = (int) array.get(3);
+                            int destination3 = (int) array.get(4);
+                            int path4time = TIME[d][source3][destination3];
+                            double path4cost = COST[d][source3][destination3];
+
+                            for (int e = 0; e < 3; e++) {
+                                int source4 = (int) array.get(4);
+                                int destination4 = (int) array.get(5);
+                                int path5time = TIME[e][source4][destination4];
+                                double path5cost = COST[e][source4][destination4];
+
+
+                                    //Where all the magic happens!
+                                    System.out.println("a: " + a + " b: " + b + " c: " + c + " d: " + d + " e: " + e);
+                                    String mode = modeOfTransport.get(a);
+                                    String mode1 = modeOfTransport.get(b);
+                                    String mode2 = modeOfTransport.get(c);
+                                    String mode3 = modeOfTransport.get(d);
+                                    String mode4 = modeOfTransport.get(e);
+
+
+                                    String origin = DATAMAP2.get(source);
+                                    String dest1 = DATAMAP2.get(destination);
+                                    String dest2 = DATAMAP2.get(destination1);
+                                    String dest3 = DATAMAP2.get(destination2);
+                                    String dest4 = DATAMAP2.get(destination3);
+                                    String dest5 = DATAMAP2.get(destination4);
+
+                                ArrayList<String> tripList = new ArrayList<>();
+                                tripList.add(origin+" to "+dest1+": "+mode);
+                                tripList.add(dest1+" to " +dest2+ ": "+mode1);
+                                tripList.add(dest2+ " to "+dest3+": "+mode2);
+                                tripList.add(dest3+ " to "+dest4+": "+mode3);
+                                tripList.add(dest4+ " to "+dest5+": "+mode4);
+
+                                    String trip = (origin+"to "+dest1+": "+mode +"\n"+ dest1+"to " +dest2+ ": "+mode1+"\n"+dest2+ "to "+dest3+": "+mode2 +"\n"+ dest3+ "to " +dest4+": "+mode3+"\n" +dest4 +"to "+dest5+": " + mode4+"\n");
+                                    double totalCost = path1cost+path2cost+path3cost+path4cost+path5cost;
+                                    //System.out.println("Total trip: " + trip);
+
+
+                                    int totalTime = path1time + path2time + path3time + path4time + path5time ;
+                                    String test = path1time + " " + path2time + " " + path3time + " " + path4time + " " + path5time + " ";
+                                    System.out.println(test);
+                                    String result = "Time cost" + totalTime;
+                                    //costsList.add(result);
+                                    //System.out.println("Total cost: "+totalCost);
+
+                                    if(totalCost<20){
+                                        TripObject tripObject = new TripObject(trip,totalTime,totalCost);
+                                        tripObject.setTripList(tripList);
+                                        costsList.add(tripObject);
+
+                                    }
+                                    else{
+                                        System.out.println("denied");
+                                        continue;
+                                    }
+
+
+
+                            }
+
+                        }
+
+                    }
+                }
+            }
+        }
+        Collections.sort(costsList);
+        return costsList;
+    }
+
+
+
+
+    public static ArrayList<TripObject> testAggregateCostsV6 (ArrayList<ArrayList<Integer>>pathLists) {
+        ArrayList<TripObject> costsList =new ArrayList<>();
+
+        for (int i = 0; i < pathLists.size(); i++) {
+            ArrayList array = pathLists.get(i);
+            System.out.println("new path!");
+            double cost = 0;
+            int time = 0;
+            for (int a = 0; a < 3; a++) {
+                int source = (int) array.get(0);
+                int destination = (int) array.get(1);
+                int path1time = TIME[a][source][destination];
+                double path1cost = COST[a][source][destination];
+
+                for (int b = 0; b<3; b++) {
+                    int source1 = (int) array.get(1);
+                    int destination1 = (int) array.get(2);
+                    int path2time = TIME[b][source1][destination1];
+                    double path2cost = COST[b][source1][destination1];
+
+                    for (int c = 0; c < 3; c++) {
+                        int source2 = (int) array.get(2);
+                        int destination2 = (int) array.get(3);
+                        int path3time = TIME[c][source2][destination2];
+                        double path3cost = COST[c][source2][destination2];
+
+                        for (int d = 0; d < 3; d++) {
+                            int source3 = (int) array.get(3);
+                            int destination3 = (int) array.get(4);
+                            int path4time = TIME[d][source3][destination3];
+                            double path4cost = COST[d][source3][destination3];
+
+                            for (int e = 0; e < 3; e++) {
                                 int source4 = (int) array.get(4);
                                 int destination4 = (int) array.get(5);
                                 int path5time = TIME[e][source4][destination4];
@@ -224,8 +606,14 @@ public class Main {
                                     int source5 = (int) array.get(5);
                                     int destination5 = (int) array.get(6);
                                     int path6time = TIME[f][source5][destination5];
-                                    double path6cost = COST[e][source5][destination5];
+                                    double path6cost = COST[f][source5][destination5];
 
+                                    String mode = modeOfTransport.get(a);
+                                    String mode1 = modeOfTransport.get(b);
+                                    String mode2 = modeOfTransport.get(c);
+                                    String mode3 = modeOfTransport.get(d);
+                                    String mode4 = modeOfTransport.get(e);
+                                    String mode5 = modeOfTransport.get(f);
 
                                     String origin = DATAMAP2.get(source);
                                     String dest1 = DATAMAP2.get(destination);
@@ -234,9 +622,18 @@ public class Main {
                                     String dest4 = DATAMAP2.get(destination3);
                                     String dest5 = DATAMAP2.get(destination4);
                                     String dest6 = DATAMAP2.get(destination5);
-                                    String trip = (origin + dest1 + dest2 + dest3 + dest4 + dest5+dest6);
+
+                                    ArrayList<String> tripList = new ArrayList<>();
+                                    tripList.add(origin+" to "+dest1+": "+mode);
+                                    tripList.add(dest1+" to " +dest2+ ": "+mode1);
+                                    tripList.add(dest2+ " to "+dest3+": "+mode2);
+                                    tripList.add(dest3+ " to "+dest4+": "+mode3);
+                                    tripList.add(dest4+ " to "+dest5+": "+mode4);
+                                    tripList.add(dest5+ " to "+dest6+": "+mode5);
+
+                                    String trip = (origin+"to "+dest1+": "+mode +"\n"+ dest1+"to " +dest2+ ": "+mode1+"\n"+dest2+ "to "+dest3+": "+mode2 +"\n"+ dest3+ "to " +dest4+": "+mode3+"\n" +dest4 +"to "+dest5+": " + mode4+"\n"+       dest5+"to " +dest6 + ": "+mode5 );
                                     double totalCost = path1cost+path2cost+path3cost+path4cost+path5cost+path6cost;
-                                    System.out.println("Total trip: " + trip);
+                                    //System.out.println("Total trip: " + trip);
 
 
                                     int totalTime = path1time + path2time + path3time + path4time + path5time + path6time;
@@ -244,9 +641,13 @@ public class Main {
                                     System.out.println(test);
                                     String result = "Time cost" + totalTime;
                                     //costsList.add(result);
-                                    System.out.println("Total cost: "+totalCost);
+                                    //System.out.println("Total cost: "+totalCost);
+
                                     if(totalCost<20){
-                                        costsList.add(result);
+                                        TripObject tripObject = new TripObject(trip,totalTime,totalCost);
+                                        tripObject.setTripList(tripList);
+                                        costsList.add(tripObject);
+                                        //TODO account for the stupid mode of transport
                                     }
                                     else{
                                         System.out.println("denied");
@@ -261,17 +662,68 @@ public class Main {
 
                     }
                 }
-
-
-
-
             }
-            System.out.println(cost);
         }
+        Collections.sort(costsList);
         return costsList;
     }
 
 
 }
+
+
+class TripObject implements Comparable<TripObject>{
+    private String tripSignature;
+    //You will want private data fields which are only modifiable by get/set
+    private  int totalTime = 0;// default value
+    private  double totalCost =0;
+    private ArrayList<String> tripList;
+
+    //Note that if more than one constructor exists, you must define the no arg constuctor manually,
+    TripObject(String trip, int time, double cost){
+        this.tripSignature = trip;
+        this.totalTime = time;
+        this.totalCost = cost;
+    }
+    public String getTripSignature() {
+        return tripSignature;// Accessor
+    }
+    public int getTotalTime() {
+        return totalTime;// Accessor
+    }
+    public double getTotalCost() {
+        return totalCost;// Accessor
+    }
+    public ArrayList<String> getTripList(){
+        return tripList;
+    }
+    public void setTripList(ArrayList<String> tripList){
+        this.tripList = tripList;
+    }
+
+
+    public String toString() {
+        //When you print a class object you use toString
+        return "total time"+ totalTime;
+    }
+
+
+    @Override
+    public int compareTo(TripObject that) {
+        if (this.totalTime > that.totalTime)
+            return 1;
+        else if (this.totalTime == that.totalTime)
+            return 0;
+        else
+            return -1;
+    }
+
+
+    //Collections.sort(List); Use this method to call
+
+
+}
+
+
 
 
