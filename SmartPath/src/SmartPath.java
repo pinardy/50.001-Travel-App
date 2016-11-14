@@ -252,9 +252,20 @@ public class SmartPath {
 
     private int[] findModeOfTransport(double budget){
         this.computeDistanceOverPrice();
+        int l = distanceTimeRatio[1].length;
         double[] distanceTimeRatiosort = new double[(path.length - 1) * 2];
-        System.arraycopy(distanceTimeRatio[1], 0, distanceTimeRatiosort, 0, distanceTimeRatio[1].length);
-        System.arraycopy(distanceTimeRatio[2], distanceTimeRatio[1].length, distanceTimeRatiosort, 0, distanceTimeRatio[2].length);
+        System.arraycopy(distanceTimeRatio[1], 0, distanceTimeRatiosort, 0, l);
+        System.arraycopy(distanceTimeRatio[2], l, distanceTimeRatiosort, 0, l);
 
+        ArrayIndexComparator comparator = new ArrayIndexComparator(distanceTimeRatiosort);
+        Integer[] indexes = comparator.createIndexArray();
+        Arrays.sort(indexes, comparator);
+
+        int[] potentialTransport = new int[path.length];
+        int i = 0;
+        int j = 0;
+        while (budget > 0){
+            if potentialTransport[i] =
+        }
     }
 }
