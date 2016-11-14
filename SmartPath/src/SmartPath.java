@@ -1,5 +1,3 @@
-import DestinationsData.java;
-
 import java.util.Arrays;
 
 /**
@@ -7,9 +5,9 @@ import java.util.Arrays;
  */
 public class SmartPath {
     private static int[] destinations;
-    private static int[] path;
+    private static int[] path = new int[destinations.length + 2];
     private static int[] transport;
-    private static int[] passedByDestinations;
+    private static double[][] distanceTimeRatio;
     private static final double[][][] COST = new double[3][destinations.length][destinations.length];
     static {
         // Travel by public transport
@@ -204,10 +202,8 @@ public class SmartPath {
 
     }
 
-
-
-
     private static DestinationsData pathdata;
+
     public int getIndexOfMin(int[] a){
         int i = a[0];
         int c = 0;
@@ -232,7 +228,33 @@ public class SmartPath {
                 currentLocation = bestNextDestination;
             }
         }
-
+        path[destinations.length + 1] = 0;
         return path;
+    }
+
+    private double[][] computeDistanceOverPrice(){
+        distanceTimeRatio = new double[3][destinations.length + 1];
+        this.findPath();
+        for (int i = 0; i <= path.length - 2; i++){
+            distanceTimeRatio[1][i] = TIME[1][path[i]][path[i+1]]/COST[1][path[i]][path[i+1]];
+            distanceTimeRatio[2][i] = TIME[2][path[i]][path[i+1]]/COST[2][path[i]][path[i+1]];
+        }
+
+//        for (int i = 1; i <= 2; i++){
+//            for (int j = 0; j <= destinations.length; j++){
+//                for (int k = 0; k <= destinations.length; k++){
+//                    distanceTimeRatio[i][j][k] = TIME[i][j][k] / COST[i][j][k];
+//                }
+//            }
+//        }
+        return distanceTimeRatio;
+    }
+
+    private int[] findModeOfTransport(double budget){
+        this.computeDistanceOverPrice();
+        double[] distanceTimeRatiosort = new double[(path.length - 1) * 2];
+        System.arraycopy(distanceTimeRatio[1], 0, distanceTimeRatiosort, 0, distanceTimeRatio[1].length);
+        System.arraycopy(distanceTimeRatio[2], distanceTimeRatio[1].length, distanceTimeRatiosort, 0, distanceTimeRatio[2].length);
+
     }
 }

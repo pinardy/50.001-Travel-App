@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="439f6c7c-92cd-45e2-aa7d-1afa66eca6e2" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SmartPath/SmartPath.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SmartPath/src/DestinationsData.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/SmartPath/src/SmartPath.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/randFiles/randFiles.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/randFiles/src/Permutations.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SmartPath/src/SmartPath.java" afterPath="$PROJECT_DIR$/SmartPath/src/SmartPath.java" />
     </list>
     <ignored path="50.001-Travel-App.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -41,10 +36,11 @@
       <file leaf-file-name="SmartPath.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SmartPath/src/SmartPath.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="698">
-              <caret line="232" column="13" selection-start-line="232" selection-start-column="13" selection-end-line="232" selection-end-column="13" />
+            <state relative-caret-position="749">
+              <caret line="257" column="0" selection-start-line="257" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="initializer##0;class#SmartPath#0" expanded="false" />
+                <element signature="initializer##1;class#SmartPath#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -55,6 +51,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-81">
               <caret line="114" column="7" selection-start-line="114" selection-start-column="7" selection-end-line="114" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DestinationsData.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Function1/src/DestinationsData.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="290">
+              <caret line="236" column="5" selection-start-line="123" selection-start-column="4" selection-end-line="236" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -903,7 +909,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Function1/src/DestinationsData.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
+        <state relative-caret-position="290">
           <caret line="236" column="5" selection-start-line="123" selection-start-column="4" selection-end-line="236" selection-end-column="5" />
           <folding />
         </state>
@@ -911,10 +917,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SmartPath/src/SmartPath.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="698">
-          <caret line="232" column="13" selection-start-line="232" selection-start-column="13" selection-end-line="232" selection-end-column="13" />
+        <state relative-caret-position="749">
+          <caret line="257" column="0" selection-start-line="257" selection-start-column="0" selection-end-line="257" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="initializer##0;class#SmartPath#0" expanded="false" />
+            <element signature="initializer##1;class#SmartPath#0" expanded="false" />
           </folding>
         </state>
       </provider>
