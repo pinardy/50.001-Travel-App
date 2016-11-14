@@ -252,6 +252,7 @@ public class SmartPath {
 
     private int[] findModeOfTransport(double budget){
         this.computeDistanceOverPrice();
+
         int l = distanceTimeRatio[1].length;
         double[] distanceTimeRatiosort = new double[(path.length - 1) * 2];
         System.arraycopy(distanceTimeRatio[1], 0, distanceTimeRatiosort, 0, l);
@@ -264,8 +265,32 @@ public class SmartPath {
         int[] potentialTransport = new int[path.length];
         int i = 0;
         int j = 0;
-        while (budget > 0){
-            if potentialTransport[i] =
+        double cost = 0;
+        while (budget > 0 && j < path.length && i < indexes.length){
+            /*** If the vector has not already been completed by another mode of transport, add in the vector to potential transport; otherwise move on ***/
+            if (!Arrays.asList(potentialTransport).contains(indexes[i] + l) && !Arrays.asList(potentialTransport).contains(indexes[i] - l)) {
+                /*** Finding cost ***/
+                if (indexes[i] >= l) {
+                    cost = COST[2][indexes[i] - l][path[indexes[i] - l + 1]];
+                }
+                else {
+                    cost = COST[1][indexes[i]][path[indexes[i] + 1]];
+                }
+                /*** If budget > cost, add to potential transport; otherwise move on ***/
+                if (budget > cost){
+                    potentialTransport[j] = indexes[i];
+                    i++;
+                    j++;
+                } else i++;
+            }
+            else i++;
         }
+        
+        for (int k : potentialTransport){
+            if (k < l) transport[k] = 1;
+            else transport[k - l] = 2;
+        }
+
+        return transport;
     }
 }

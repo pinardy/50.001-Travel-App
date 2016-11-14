@@ -23,8 +23,8 @@ public class ArrayIndexComparator implements Comparator<Integer>
     public int compare(Integer index1, Integer index2)
     {
         // Autounbox from Integer to int to use as array indexes
-        if (array[index1] - (array[index2]) > 0) return 1;
-        else if (array[index1] - array[index2] == 0) return 0;
+        if (array[index1] < (array[index2])) return 1;
+        else if (array[index1] == array[index2] ) return 0;
         else return -1;
     }
 }
