@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="439f6c7c-92cd-45e2-aa7d-1afa66eca6e2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SmartPath/src/ArrayIndexComparator.java" afterPath="$PROJECT_DIR$/SmartPath/src/ArrayIndexComparator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/SmartPath/src/SmartPath.java" afterPath="$PROJECT_DIR$/SmartPath/src/SmartPath.java" />
-    </list>
+    <list default="true" id="439f6c7c-92cd-45e2-aa7d-1afa66eca6e2" name="Default" comment="" />
     <ignored path="50.001-Travel-App.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,7 +33,7 @@
       <file leaf-file-name="SmartPath.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SmartPath/src/SmartPath.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="664">
+            <state relative-caret-position="1683">
               <caret line="287" column="8" selection-start-line="287" selection-start-column="8" selection-end-line="287" selection-end-column="8" />
               <folding>
                 <element signature="initializer##0;class#SmartPath#0" expanded="false" />
@@ -942,7 +939,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SmartPath/src/SmartPath.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="664">
+        <state relative-caret-position="1683">
           <caret line="287" column="8" selection-start-line="287" selection-start-column="8" selection-end-line="287" selection-end-column="8" />
           <folding>
             <element signature="initializer##0;class#SmartPath#0" expanded="false" />
