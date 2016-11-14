@@ -1,5 +1,3 @@
-import DestinationsData.java;
-
 import java.util.Arrays;
 
 /**
@@ -7,9 +5,9 @@ import java.util.Arrays;
  */
 public class SmartPath {
     private static int[] destinations;
-    private static int[] path;
+    private static int[] path = new int[destinations.length + 2];
     private static int[] transport;
-    private static int[] passedByDestinations;
+    private static double[][] distanceTimeRatio;
     private static final double[][][] COST = new double[3][destinations.length][destinations.length];
     static {
         // Travel by public transport
@@ -204,10 +202,8 @@ public class SmartPath {
 
     }
 
-
-
-
     private static DestinationsData pathdata;
+
     public int getIndexOfMin(int[] a){
         int i = a[0];
         int c = 0;
@@ -232,7 +228,69 @@ public class SmartPath {
                 currentLocation = bestNextDestination;
             }
         }
-
+        path[destinations.length + 1] = 0;
         return path;
+    }
+
+    private double[][] computeDistanceOverPrice(){
+        distanceTimeRatio = new double[3][destinations.length + 1];
+        this.findPath();
+        for (int i = 0; i <= path.length - 2; i++){
+            distanceTimeRatio[1][i] = TIME[1][path[i]][path[i+1]]/COST[1][path[i]][path[i+1]];
+            distanceTimeRatio[2][i] = TIME[2][path[i]][path[i+1]]/COST[2][path[i]][path[i+1]];
+        }
+
+//        for (int i = 1; i <= 2; i++){
+//            for (int j = 0; j <= destinations.length; j++){
+//                for (int k = 0; k <= destinations.length; k++){
+//                    distanceTimeRatio[i][j][k] = TIME[i][j][k] / COST[i][j][k];
+//                }
+//            }
+//        }
+        return distanceTimeRatio;
+    }
+
+    private int[] findModeOfTransport(double budget){
+        this.computeDistanceOverPrice();
+
+        int l = distanceTimeRatio[1].length;
+        double[] distanceTimeRatiosort = new double[(path.length - 1) * 2];
+        System.arraycopy(distanceTimeRatio[1], 0, distanceTimeRatiosort, 0, l);
+        System.arraycopy(distanceTimeRatio[2], l, distanceTimeRatiosort, 0, l);
+
+        ArrayIndexComparator comparator = new ArrayIndexComparator(distanceTimeRatiosort);
+        Integer[] indexes = comparator.createIndexArray();
+        Arrays.sort(indexes, comparator);
+
+        int[] potentialTransport = new int[path.length];
+        int i = 0;
+        int j = 0;
+        double cost = 0;
+        while (budget > 0 && j < path.length && i < indexes.length){
+            /*** If the vector has not already been completed by another mode of transport, add in the vector to potential transport; otherwise move on ***/
+            if (!Arrays.asList(potentialTransport).contains(indexes[i] + l) && !Arrays.asList(potentialTransport).contains(indexes[i] - l)) {
+                /*** Finding cost ***/
+                if (indexes[i] >= l) {
+                    cost = COST[2][indexes[i] - l][path[indexes[i] - l + 1]];
+                }
+                else {
+                    cost = COST[1][indexes[i]][path[indexes[i] + 1]];
+                }
+                /*** If budget > cost, add to potential transport; otherwise move on ***/
+                if (budget > cost){
+                    potentialTransport[j] = indexes[i];
+                    i++;
+                    j++;
+                } else i++;
+            }
+            else i++;
+        }
+        
+        for (int k : potentialTransport){
+            if (k < l) transport[k] = 1;
+            else transport[k - l] = 2;
+        }
+
+        return transport;
     }
 }
