@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Travel App</string>
+    <string name="information">Information</string>
+    <string name="location">Location</string>
+    <string name="itinerary">Itinerary</string>
+    <string name="title_place_list">Places</string>
+    <string name="title_place_detail">Place Detail</string>
+</resources>
