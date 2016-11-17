@@ -1,7 +1,10 @@
 package com.example.user.travelapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -22,6 +25,13 @@ public class InfoActivity extends AppCompatActivity {
     private PlaceInfoAdapter pAdapter;
     private int noOfPlaces;
 
+
+    public interface ClickListener {
+        void onClick(View view, int position);
+
+        void onLongClick(View view, int position);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,46 +49,61 @@ public class InfoActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new Divider(this, LinearLayoutManager.VERTICAL));
 
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
-            public void onClick(View view, int position) {
-                Place place = placeList.get(position);
-                Toast.makeText(getApplicationContext(), place.getPlace() + " is selected!", Toast.LENGTH_SHORT).show();
-            }
 
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
 
         recyclerView.setAdapter(pAdapter);
 
         preparePlaceData();
 
-        for(int i=0; i<noOfPlaces; i++){
-            String webUrl = placeList.get(i).getDetails();
+
+//        String detail1 = placeList.get(0).getDetails();
+//        String detail2 = placeList.get(1).getDetails();
+//        String detail3 = placeList.get(2).getDetails();
+//        String detail4 = placeList.get(3).getDetails();
+//        String detail5 = placeList.get(4).getDetails();
+//        String detail6 = placeList.get(5).getDetails();
+
+        final MediaPlayer mp = MediaPlayer.create(this, R.raw.sound1);
 
 
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView,
+                new ClickListener() {
+                    @Override
+                    public void onClick(View view, int position) {
+                        Place place = placeList.get(position);
+//                        Toast.makeText(getApplicationContext(), place.getDetails(), Toast.LENGTH_SHORT).show();
+                        mp.start();
 
-        }
+
+                        Uri uri = Uri.parse(place.getDetails());
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onLongClick(View view, int position) {
+
+                    }
+                }));
     }
 
     private void preparePlaceData() {
-        Place place = new Place("temple","Buddha Tooth Relic Temple","The Buddha Tooth Relic Temple and Museum is a Buddhist temple and museum complex located in the Chinatown district of Singapore.", "https://www.wikipedia.org/wiki/Buddha_Tooth_Relic_Temple_and_Museum");
+        Place place = new Place("temple","Buddha Tooth Relic Temple","The Buddha Tooth Relic Temple and Museum is a Buddhist temple and museum complex located in the Chinatown district of Singapore.", "https://en.wikipedia.org/wiki/Buddha_Tooth_Relic_Temple_and_Museum");
         placeList.add(place);
 
-        place = new Place("mbs", "Marina Bay Sands", "Marina Bay Sands is an integrated resort fronting Marina Bay in Singapore. At its opening in 2010, it was billed as the world's most expensive standalone casino property at S$8 billion, including the land cost.", "https://www.wikipedia.org/wiki/Marina_Bay_Sands");
+        place = new Place("mbs", "Marina Bay Sands", "Marina Bay Sands is an integrated resort fronting Marina Bay in Singapore. At its opening in 2010, it was billed as the world's most expensive standalone casino property at S$8 billion, including the land cost.", "https://en.wikipedia.org/wiki/Marina_Bay_Sands");
         placeList.add(place);
 
-        place = new Place("rws", "Resorts World Sentosa", "Resorts World Sentosa is an integrated resort on the island of Sentosa, off the southern coast of Singapore. The key attractions include one of Singapore's two casinos, a Universal Studios theme park, Adventure Cove Water Park, and S.E.A. Aquarium, which includes the world's largest oceanarium.", "https://www.wikipedia.org/wiki/Resorts_World_Sentosa");
+        place = new Place("rws", "Resorts World Sentosa", "Resorts World Sentosa is an integrated resort on the island of Sentosa, off the southern coast of Singapore. The key attractions include one of Singapore's two casinos, a Universal Studios theme park, Adventure Cove Water Park, and S.E.A. Aquarium, which includes the world's largest oceanarium.", "https://en.wikipedia.org/wiki/Resorts_World_Sentosa");
         placeList.add(place);
 
-        place = new Place("flyer", "Singapore Flyer", "The Singapore Flyer is a giant Ferris wheel in Singapore. Described by its operators as an observation wheel, it opened in 2008, construction having taken about 2½ years. It carried its first paying passengers on 11 February, opened to the public on 1 March, and was officially opened on 15 April. It has 28 air-conditioned capsules, each able to accommodate 28 passengers, and incorporates a three-storey terminal building.", "https://www.wikipedia.org/wiki/Singapore_Flyer");
+        place = new Place("flyer", "Singapore Flyer", "The Singapore Flyer is a giant Ferris wheel in Singapore. Described by its operators as an observation wheel, it opened in 2008, construction having taken about 2½ years. It carried its first paying passengers on 11 February, opened to the public on 1 March, and was officially opened on 15 April. It has 28 air-conditioned capsules, each able to accommodate 28 passengers, and incorporates a three-storey terminal building.", "https://en.wikipedia.org/wiki/Singapore_Flyer");
         placeList.add(place);
 
-        place = new Place("zoo", "Singapore Zoo", "The Singapore Zoo, formerly known as the Singapore Zoological Gardens and commonly known locally as the Mandai Zoo, occupies 28 hectares (69 acres) on the margins of Upper Seletar Reservoir within Singapore's heavily forested central catchment area.", "https://www.wikipedia.org/wiki/Singapore_Zoo");
+        place = new Place("zoo", "Singapore Zoo", "The Singapore Zoo, formerly known as the Singapore Zoological Gardens and commonly known locally as the Mandai Zoo, occupies 28 hectares (69 acres) on the margins of Upper Seletar Reservoir within Singapore's heavily forested central catchment area.", "https://en.wikipedia.org/wiki/Singapore_Zoo");
         placeList.add(place);
 
-        place = new Place("vivo", "VivoCity", "VivoCity (Chinese: 怡丰城) is the largest shopping mall in Singapore. Located in the HarbourFront precinct of Bukit Merah, it was designed by the Japanese architect Toyo Ito. Its name is derived from the word vivacity.", "https://www.wikipedia.org/wiki/VivoCity");
+        place = new Place("vivo", "VivoCity", "VivoCity (Chinese: 怡丰城) is the largest shopping mall in Singapore. Located in the HarbourFront precinct of Bukit Merah, it was designed by the Japanese architect Toyo Ito. Its name is derived from the word vivacity.", "https://en.wikipedia.org/wiki/VivoCity");
         placeList.add(place);
 
         noOfPlaces = 6;

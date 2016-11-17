@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,36 +15,62 @@ import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity {
 
-    TextView t;
-    Button btn;
+    TextView t1,t2,t3;
+    Button btn1,btn2,btn3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        btn=(Button)findViewById(R.id.button3);
-        btn.setOnClickListener(new View.OnClickListener(){
+
+        final MediaPlayer mp1 = MediaPlayer.create(this, R.raw.bruh);
+        final MediaPlayer mp2 = MediaPlayer.create(this, R.raw.rn);
+        final MediaPlayer mp3 = MediaPlayer.create(this, R.raw.sound2);
+
+        btn1=(Button)findViewById(R.id.button1);
+        btn1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+//                Intent anyintent = new Intent(HomeActivity.this, InfoActivity.class);
+//                startActivity(anyintent);
+                mp1.start();
+            }
+        });
+
+        btn2=(Button)findViewById(R.id.button2);
+        btn2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+//                Intent anyintent = new Intent(HomeActivity.this, InfoActivity.class);
+//                startActivity(anyintent);
+                mp2.start();
+            }
+        });
+
+
+        btn3=(Button)findViewById(R.id.button3);
+        btn3.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 Intent anyintent = new Intent(HomeActivity.this, InfoActivity.class);
                 startActivity(anyintent);
+                mp3.start();
             }
                                });
 
 
-
-
-        t=(TextView)findViewById(R.id.my_text);
+        t1=(TextView)findViewById(R.id.my_text);
         Typeface my_customfont=Typeface.createFromAsset(getAssets(),"fonts/Questrial.ttf");
-        t.setTypeface(my_customfont);
+        t1.setTypeface(my_customfont);
 
-        t=(TextView)findViewById(R.id.my_text2);
+        t2=(TextView)findViewById(R.id.my_text2);
         Typeface my_customfont2=Typeface.createFromAsset(getAssets(),"fonts/Questrial.ttf");
-        t.setTypeface(my_customfont2);
+        t2.setTypeface(my_customfont2);
 
-        t=(TextView)findViewById(R.id.my_text3);
+        t3=(TextView)findViewById(R.id.my_text3);
         Typeface my_customfont3=Typeface.createFromAsset(getAssets(),"fonts/Questrial.ttf");
-        t.setTypeface(my_customfont3);
+        t3.setTypeface(my_customfont3);
+
     }
 
     @Override
