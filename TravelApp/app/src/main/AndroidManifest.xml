@@ -19,22 +19,13 @@
         </activity>
         <activity android:name=".HomeActivity" />
         <activity
-            android:name=".PlaceListActivity"
-            android:label="@string/title_place_list"
-            android:parentActivityName=".HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.user.travelapp.HomeActivity" />
-        </activity>
-        <activity
-            android:name=".PlaceDetailActivity"
+            android:name=".InfoActivity"
             android:label="@string/title_place_detail"
-            android:parentActivityName=".PlaceListActivity"
+            android:parentActivityName=".InfoActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.user.travelapp.PlaceListActivity" />
+                android:value="com.example.user.travelapp.InfoActivity" />
         </activity>
     </application>
 

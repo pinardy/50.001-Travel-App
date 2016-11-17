@@ -24,7 +24,7 @@ public class HomeActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent anyintent = new Intent(HomeActivity.this, PlaceListActivity.class);
+                Intent anyintent = new Intent(HomeActivity.this, InfoActivity.class);
                 startActivity(anyintent);
             }
                                });
