@@ -1,6 +1,11 @@
 package com.example.pin.itinerarytest;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import static com.example.pin.itinerarytest.DestinationsData.*;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,7 +16,7 @@ import java.util.List;
  * Created by Pin on 14-Nov-16.
  */
 
-public class ExhaustiveEnum {
+public class ExhaustiveEnum implements Serializable{
 
     public static void main(String[] args) {
         ArrayList<Integer> s = new ArrayList<>();
@@ -86,7 +91,6 @@ public class ExhaustiveEnum {
         //System.out.println("old permute list: " + oldpermutelists);
         for(ArrayList<Integer> list : oldpermutelists)
         {
-            //TODO System.out.println("list: " + list);
             //Not modifying the array list of arraylists itself, but the ararylist elements
             for(int i=0; i<=list.size(); i++)
             {
@@ -98,7 +102,6 @@ public class ExhaustiveEnum {
 
                 ArrayList<Integer> newlist = new ArrayList<Integer>(list);
                 newlist.add(i,lastele);
-                //TODO System.out.println("lastele: " + lastele +" i: " +i);
                 //Test the start and the end appending
                 //System.out.println("newlist " +newlist);
                 newpermutelists.add(newlist);
@@ -113,14 +116,12 @@ public class ExhaustiveEnum {
             ArrayList array = pathLists.get(i);
             array.add(0, 0);
             array.add(0);
-            //TODO System.out.println(array);
         }
         return pathLists;
     }
 
     public static TripObject chooseAggregateCostsMethod (ArrayList<ArrayList<Integer>>pathLists, double budget){
         int i = pathLists.get(0).size();
-        //TODO System.out.println("Value of i: "+i);
         switch (i) {
             case 3:
                 return testAggregateCostsV2(pathLists,budget);
@@ -144,7 +145,6 @@ public class ExhaustiveEnum {
 
         for (int i = 0; i < pathLists.size(); i++) {
             ArrayList array = pathLists.get(i);
-            //TODO System.out.println("new path!");
             double cost = 0;
             int time = 0;
             for (int a = 0; a < 3; a++) {
@@ -160,7 +160,6 @@ public class ExhaustiveEnum {
                     double path2cost = COST[b][source1][destination1];
 
                     //Where all the magic happens!
-                    //TODO System.out.println("a: " + a + " b: " + b + " c: ");
                     String mode = modeOfTransport.get(a);
                     String mode1 = modeOfTransport.get(b);
                     String origin = DATAMAP2.get(source);
@@ -170,7 +169,6 @@ public class ExhaustiveEnum {
                     double totalCost = path1cost+path2cost;
                     //System.out.println("Total trip: " + trip);
                     int totalTime = path1time + path2time;
-                    //TODO System.out.println(test);
                     //costsList.add(result);
                     //System.out.println("Total cost: "+totalCost);
                     ArrayList<String> tripList = new ArrayList<>();
@@ -179,14 +177,14 @@ public class ExhaustiveEnum {
                     tripList.add(dest2);
 
                     ArrayList<String> timeAndCost = new ArrayList<>();
-                    timeAndCost.add("Mode: "+mode+"\nTime: "+path1time+"\nCost: "+path1cost);
-                    timeAndCost.add("Mode: "+mode1+"\nTime: "+path2time+"\nCost: "+path2cost);
+                    timeAndCost.add("Mode: "+mode+"\nTime: "+path1time+" mins"+"\nCost: $"+path1cost);
+                    timeAndCost.add("Mode: "+mode1+"\nTime: "+path2time+" mins"+"\nCost: $"+path2cost);
 
                     if(totalCost<=budget){
                         TripObject tripObject = new TripObject(trip,totalTime,totalCost);
                         tripObject.setTripList(tripList);                         tripObject.setTimeAndCostList(timeAndCost);
                         tripObject.setTimeAndCostList(timeAndCost);
-                        costsList.add(tripObject);                            //TODO account for the stupid mode of transport
+                        costsList.add(tripObject);
                     }
                     else{
                         //System.out.println("denied");
@@ -246,9 +244,9 @@ public class ExhaustiveEnum {
                         tripList.add(dest3);
 
                         ArrayList<String> timeAndCost = new ArrayList<>();
-                        timeAndCost.add("Mode: "+mode+"\nTime: "+path1time+"\nCost: "+path1cost);
-                        timeAndCost.add("Mode: "+mode1+"\nTime: "+path2time+"\nCost: "+path2cost);
-                        timeAndCost.add("Mode: "+mode2+"\nTime: "+path3time+"\nCost: "+path3cost);
+                        timeAndCost.add("Mode: "+mode+"\nTime: "+path1time+" mins"+"\nCost: $"+path1cost);
+                        timeAndCost.add("Mode: "+mode1+"\nTime: "+path2time+" mins"+"\nCost: $"+path2cost);
+                                                            timeAndCost.add("Mode: "+mode2+"\nTime: "+path3time+" mins"+"\nCost: $"+path3cost); 
 
 
                         int totalTime = path1time + path2time + path3time ;
@@ -342,13 +340,12 @@ public class ExhaustiveEnum {
                             //costsList.add(result);
                             //System.out.println("Total cost: "+totalCost);
                             ArrayList<String> timeAndCost = new ArrayList<>();
-                            timeAndCost.add("Mode: "+mode+"\nTime: "+path1time+"\nCost: "+path1cost);
-                            timeAndCost.add("Mode: "+mode1+"\nTime: "+path2time+"\nCost: "+path2cost);
-                            timeAndCost.add("Mode: "+mode2+"\nTime: "+path3time+"\nCost: "+path3cost);
-                            timeAndCost.add("Mode: "+mode3+"\nTime: "+path4time+"\nCost: "+path4cost);
+                            timeAndCost.add("Mode: "+mode+"\nTime: "+path1time+" mins"+"\nCost: $"+path1cost);
+                            timeAndCost.add("Mode: "+mode1+"\nTime: "+path2time+" mins"+"\nCost: $"+path2cost);
+                                                                timeAndCost.add("Mode: "+mode2+"\nTime: "+path3time+" mins"+"\nCost: $"+path3cost); 
+                            timeAndCost.add("Mode: "+mode3+"\nTime: "+path4time+" mins"+"\nCost: $"+path4cost); 
                             if(totalCost<=budget){
 
-                                //TODO account for the stupid mode of transport
                                 TripObject tripObject = new TripObject(trip,totalTime,totalCost);
                                 tripObject.setTripList(tripList);                         tripObject.setTimeAndCostList(timeAndCost);
                                 costsList.add(tripObject);
@@ -445,11 +442,11 @@ public class ExhaustiveEnum {
                                 //System.out.println("Total cost: "+totalCost);
 
                                 ArrayList<String> timeAndCost = new ArrayList<>();
-                                timeAndCost.add("Mode: "+mode+"\nTime: "+path1time+"\nCost: "+path1cost);
-                                timeAndCost.add("Mode: "+mode1+"\nTime: "+path2time+"\nCost: "+path2cost);
-                                timeAndCost.add("Mode: "+mode2+"\nTime: "+path3time+"\nCost: "+path3cost);
-                                timeAndCost.add("Mode: "+mode3+"\nTime: "+path4time+"\nCost: "+path4cost);
-                                timeAndCost.add("Mode: "+mode4+"\nTime: "+path5time+"\nCost: "+path5cost);
+                                timeAndCost.add("Mode: "+mode+"\nTime: "+path1time+" mins"+"\nCost: $"+path1cost);
+                                timeAndCost.add("Mode: "+mode1+"\nTime: "+path2time+" mins"+"\nCost: $"+path2cost);
+                                timeAndCost.add("Mode: "+mode2+"\nTime: "+path3time+" mins"+"\nCost: $"+path3cost); 
+                                timeAndCost.add("Mode: "+mode3+"\nTime: "+path4time+" mins"+"\nCost: $"+path4cost);
+                                timeAndCost.add("Mode: "+mode4+"\nTime: "+path5time+" mins"+"\nCost: $"+path5cost);
 
                                 if(totalCost<=budget){
                                     TripObject tripObject = new TripObject(trip,totalTime,totalCost);
@@ -548,12 +545,12 @@ public class ExhaustiveEnum {
                                     tripList.add(dest6);
 
                                     ArrayList<String> timeAndCost = new ArrayList<>();
-                                    timeAndCost.add("Mode: "+mode+"\nTime: "+path1time+"\nCost: "+path1cost);
-                                    timeAndCost.add("Mode: "+mode1+"\nTime: "+path2time+"\nCost: "+path2cost);
-                                    timeAndCost.add("Mode: "+mode2+"\nTime: "+path3time+"\nCost: "+path3cost);
-                                    timeAndCost.add("Mode: "+mode3+"\nTime: "+path4time+"\nCost: "+path4cost);
-                                    timeAndCost.add("Mode: "+mode4+"\nTime: "+path5time+"\nCost: "+path5cost);
-                                    timeAndCost.add("Mode: "+mode5+"\nTime: "+path6time+"\nCost: "+path6cost);
+                                    timeAndCost.add("Mode: "+mode+"\nTime: "+path1time+" mins"+"\nCost: $"+path1cost);
+                                    timeAndCost.add("Mode: "+mode1+"\nTime: "+path2time+" mins"+"\nCost: $"+path2cost);
+                                    timeAndCost.add("Mode: "+mode2+"\nTime: "+path3time+" mins"+"\nCost: $"+path3cost);
+                                    timeAndCost.add("Mode: "+mode3+"\nTime: "+path4time+" mins"+"\nCost: $"+path4cost);
+                                    timeAndCost.add("Mode: "+mode4+"\nTime: "+path5time+" mins"+"\nCost: $"+path5cost);
+                                    timeAndCost.add("Mode: "+mode5+"\nTime: "+path6time+" mins"+"\nCost: $"+path6cost);
 
 
                                     String trip = (origin+"to "+dest1+": "+mode +"\n"+ dest1+"to " +dest2+ ": "+mode1+"\n"+dest2+ "to "+dest3+": "+mode2 +"\n"+ dest3+ "to " +dest4+": "+mode3+"\n" +dest4 +"to "+dest5+": " + mode4+"\n"+       dest5+"to " +dest6 + ": "+mode5 );
@@ -573,7 +570,6 @@ public class ExhaustiveEnum {
                                         tripObject.setTripList(tripList);
                                         tripObject.setTimeAndCostList(timeAndCost);
                                         costsList.add(tripObject);
-                                        //TODO account for the stupid mode of transport
                                     }
                                     else{
                                         //System.out.println("denied");
@@ -596,7 +592,58 @@ public class ExhaustiveEnum {
 }
 
 
-class TripObject implements Comparable<TripObject>{
+//class TripObject implements Comparable<TripObject> {
+//    private String tripSignature;
+//    //You will want private data fields which are only modifiable by get/set
+//    private  int totalTime = 0;// default value
+//    private  double totalCost =0;
+//    private ArrayList<String> tripList;
+//    private ArrayList<String> timeAndCostList;
+//
+//    //Note that if more than one constructor exists, you must define the no arg constuctor manually,
+//    TripObject(String trip, int time, double cost){
+//        this.tripSignature = trip;
+//        this.totalTime = time;
+//        this.totalCost = cost;
+//    }
+//    public String getTripSignature() {
+//        return tripSignature;// Accessor
+//    }
+//    public int getTotalTime() {
+//        return totalTime;// Accessor
+//    }
+//    public double getTotalCost() {
+//        return totalCost;// Accessor
+//    }
+//    public ArrayList<String> getTripList(){
+//        return tripList;
+//    }
+//    public void setTripList(ArrayList<String> tripList){
+//        this.tripList = tripList;
+//    }
+//    public void setTimeAndCostList(ArrayList<String> a){
+//        this.timeAndCostList = a;
+//    }
+//    public ArrayList<String> getTimeAndCostList(){
+//        return this.timeAndCostList;
+//    }
+//
+//    public String toString() {
+//        //When you print a class object you use toString
+//        return "total time"+ totalTime;
+//    }
+//    @Override
+//    public int compareTo(TripObject that) {
+//        if (this.totalTime > that.totalTime)
+//            return 1;
+//        else if (this.totalTime == that.totalTime)
+//            return 0;
+//        else
+//            return -1;
+//    }
+//}
+
+class TripObject implements Comparable<TripObject>, Parcelable {
     private String tripSignature;
     //You will want private data fields which are only modifiable by get/set
     private  int totalTime = 0;// default value
@@ -645,5 +692,59 @@ class TripObject implements Comparable<TripObject>{
         else
             return -1;
     }
-}
 
+    protected TripObject(Parcel in) {
+        tripSignature = in.readString();
+        totalTime = in.readInt();
+        totalCost = in.readDouble();
+        if (in.readByte() == 0x01) {
+            tripList = new ArrayList<String>();
+            in.readList(tripList, String.class.getClassLoader());
+        } else {
+            tripList = null;
+        }
+        if (in.readByte() == 0x01) {
+            timeAndCostList = new ArrayList<String>();
+            in.readList(timeAndCostList, String.class.getClassLoader());
+        } else {
+            timeAndCostList = null;
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(tripSignature);
+        dest.writeInt(totalTime);
+        dest.writeDouble(totalCost);
+        if (tripList == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(tripList);
+        }
+        if (timeAndCostList == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(timeAndCostList);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<TripObject> CREATOR = new Parcelable.Creator<TripObject>() {
+        @Override
+        public TripObject createFromParcel(Parcel in) {
+            return new TripObject(in);
+        }
+
+        @Override
+        public TripObject[] newArray(int size) {
+            return new TripObject[size];
+        }
+    };
+}

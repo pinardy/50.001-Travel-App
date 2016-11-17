@@ -4,23 +4,20 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.animation.Interpolator;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ArrayList<Integer> arrayList_int = stringToIntegerArrayList(arrayList);
+        EditText budgetEditText = (EditText) findViewById(R.id.budget);
     }
 
     /**@param arraylist:
@@ -52,8 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void clearItinerary(View v){
         TextView itineraryList = (TextView) findViewById(R.id.itineraryList);
-        itineraryList.setText(""); //Clearing the textview
-        arrayList.clear(); //Clearing the arraylist
+        itineraryList.setText(""); // Clearing the textview
+        arrayList.clear(); // Clearing the arraylist
     }
 
     /**
@@ -65,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
      *
      */
     public ArrayList<Integer> stringToIntegerArrayList(ArrayList<String> list_string){
+
         //instantiating the output (An arraylist of integers)
         ArrayList<Integer> arrayList_int = new ArrayList<Integer>();
 
@@ -88,27 +86,35 @@ public class MainActivity extends AppCompatActivity {
         return arrayList_int;
     }
 
-    public void planItinerary(View v){
-        // Bring us to the itinerary screen
-        Intent myIntent = new Intent(this, ExhaustiveActivity.class);
-        startActivity(myIntent);
-
-        /**Data to be passed into algorithm
-         * @param arrayList_int (ArrayList<Integer)
-         * @param budget  (Double)
-         */
-        ArrayList<Integer> arrayList_int = stringToIntegerArrayList(arrayList);
+    //get budget, if empty return 0
+    private double getBudget() {
         EditText budgetEditText = (EditText) findViewById(R.id.budget);
-        Double budget = Double.valueOf(budgetEditText.getText().toString());
 
-        //pass data into algorithm
-        TripObject mostOptimal = ExhaustiveEnum.fullFunction(arrayList_int,budget);
+        double value = Double.parseDouble(budgetEditText.getText().toString().trim());
+        return value;
+    }
 
-        //data obtained
-        Integer totalTime = mostOptimal.getTotalTime();
-        Double totalCost = mostOptimal.getTotalCost();
-        ArrayList<String> tripList = mostOptimal.getTripList();
-        ArrayList<String> timeCostList = mostOptimal.getTimeAndCostList();
+    public void planItinerary(View v){
+        ArrayList<Integer> arrayList_int = stringToIntegerArrayList(arrayList);
 
+        try {
+            TripObject mostOptimal = ExhaustiveEnum.fullFunction(arrayList_int, getBudget());
+            passOnResults(mostOptimal);
+        } catch (NumberFormatException num_e){
+            Toast.makeText(MainActivity.this,
+                    "Enter your budget", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(MainActivity.this,
+                    "Empty Itinerary", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this,
+                    "Choose your location(s)", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void passOnResults(TripObject mostOptimalPath) {
+        Intent i = new Intent(getApplicationContext(), ExhaustiveActivity.class);
+        i.putExtra("Most Optimal",  mostOptimalPath);
+        startActivity(i);
     }
 }
+
