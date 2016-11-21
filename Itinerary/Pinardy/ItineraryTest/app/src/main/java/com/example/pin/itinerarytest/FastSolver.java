@@ -119,8 +119,9 @@ public class FastSolver implements Parcelable {
         int[] potentialTransport = new int[path.length];
         int i = 0;
         int j = 0;
+        double rembudget = budget;
         double cost = 0;
-        while (budget > 0 && j < path.length && i < indexes.length){
+        while (rembudget > 0 && j < path.length && i < indexes.length){
             /*** If the vector has not already been completed by another mode of transport, add in the vector to potential transport; otherwise move on ***/
             if (checkList(potentialTransport, indexes[i] + l) && checkList(potentialTransport, indexes[i] - l)) {
                 /*** Finding cost ***/
@@ -132,9 +133,9 @@ public class FastSolver implements Parcelable {
                     cost = COST[1][path[indexes[i]]][path[indexes[i] + 1]];
                 }
                 /*** If budget > cost, add to potential transport; otherwise move on ***/
-                if (budget > cost){
+                if (rembudget > cost){
                     potentialTransport[j] = indexes[i];
-                    budget -= cost;
+                    rembudget -= cost;
                     i++;
                     j++;
                 } else i++;
@@ -146,6 +147,15 @@ public class FastSolver implements Parcelable {
             if (k < l) transport[k] = 1;
             else transport[k - l] = 2;
         }
+        int n = 0;
+        for (int m = 0; m < indexes.length; m++) {
+            if (indexes[m] >= l) n = indexes[m] - l;
+            if (indexes[m] >= l && transport[n] == 1 && rembudget > COST[2][path[n]][path[n + 1]] - COST[1][path[n]][path[n + 1]]){
+                transport[n] = 2;
+                rembudget = rembudget - COST[2][path[n]][path[n + 1]] + COST[1][path[n]][path[n + 1]];
+            }
+        }
+        budget = rembudget;
     }
 
     public static void getTimeAndCost(){
