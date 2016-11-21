@@ -9,6 +9,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
 
@@ -94,6 +95,16 @@ public class MainActivity extends AppCompatActivity{
         return value;
     }
 
+    public static int[] convertIntegers(List<Integer> integers)
+    {
+        int[] output = new int[integers.size()];
+        for (int i=0; i < output.length; i++)
+        {
+            output[i] = integers.get(i).intValue();
+        }
+        return output;
+    }
+
     public void planItinerary(View v){
         ArrayList<Integer> arrayList_int = stringToIntegerArrayList(arrayList);
 
@@ -111,10 +122,46 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    public void planItinerary_fast(View v){
+        ArrayList<Integer> arrayList_int = stringToIntegerArrayList(arrayList);
+        int[] fastInput = convertIntegers(arrayList_int);
+        FastSolver smart = new FastSolver();
+
+        try {
+            if (fastInput.length == 0){
+                throw new Exception("Empty Itinerary");
+            }
+            else {
+                smart.setDestination(fastInput);
+                smart.setBudget(getBudget());
+                smart.computeModeOfTransport();
+                passOnResults_fast(smart);
+            }
+        } catch (NumberFormatException num_e){
+            Toast.makeText(MainActivity.this,
+                    "Enter your budget", Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(MainActivity.this,
+                    "Empty Itinerary", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this,
+                    "Choose your location(s)", Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
     private void passOnResults(TripObject mostOptimalPath) {
         Intent i = new Intent(getApplicationContext(), ExhaustiveActivity.class);
         i.putExtra("Most Optimal",  mostOptimalPath);
         startActivity(i);
     }
+
+    private void passOnResults_fast(FastSolver fastOptimalPath) {
+        Intent i_fast = new Intent(getApplicationContext(), FastActivity.class);
+        i_fast.putExtra("Fast Optimal", fastOptimalPath);
+        startActivity(i_fast);
+
+    }
+
 }
 
