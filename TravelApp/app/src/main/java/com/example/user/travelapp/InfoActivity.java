@@ -56,13 +56,6 @@ public class InfoActivity extends AppCompatActivity {
         preparePlaceData();
 
 
-//        String detail1 = placeList.get(0).getDetails();
-//        String detail2 = placeList.get(1).getDetails();
-//        String detail3 = placeList.get(2).getDetails();
-//        String detail4 = placeList.get(3).getDetails();
-//        String detail5 = placeList.get(4).getDetails();
-//        String detail6 = placeList.get(5).getDetails();
-
         final MediaPlayer mp = MediaPlayer.create(this, R.raw.sound1);
 
 
@@ -72,7 +65,7 @@ public class InfoActivity extends AppCompatActivity {
                     public void onClick(View view, int position) {
                         Place place = placeList.get(position);
 //                        Toast.makeText(getApplicationContext(), place.getDetails(), Toast.LENGTH_SHORT).show();
-                        mp.start();
+//                        mp.start();
 
 
                         Uri uri = Uri.parse(place.getDetails());

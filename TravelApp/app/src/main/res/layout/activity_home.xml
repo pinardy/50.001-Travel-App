@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,23 +7,34 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.user.travelapp.HomeActivity">
+    tools:context="com.example.user.travelapp.HomeActivity"
+    android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/travelpedia"
-        android:id="@+id/imageView"
-        android:clickable="true"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:layout_alignParentTop="true"
-        android:scaleY="1.05"
-        android:layout_alignParentStart="true" />
+        android:layout_weight="2">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/travelpedia"
+            android:id="@+id/imageView"
+            android:clickable="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_alignParentTop="true"
+            android:scaleY="1.05"
+            android:layout_alignParentStart="true" />
+    </LinearLayout>
 
 
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginBottom="10dp">
     <Button
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -34,30 +45,31 @@
         android:clickable="true"
         android:shadowColor="#f93434"
         android:fadingEdge="none"
-        android:layout_below="@+id/imageView"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/itinerary"
+        android:layout_gravity="center_vertical"
         android:id="@+id/my_text"
         android:textSize="40sp"
         android:textColor="#ff6d02"
-        android:layout_alignBottom="@+id/button1"
-        android:layout_alignLeft="@+id/button1"
-        android:paddingBottom="20dp"
-        android:paddingLeft="152dp"/>
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="7dp"/>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
     <Button
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="@drawable/button2"
         android:id="@+id/button2"
-        android:layout_below="@+id/button1"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp" />
+        android:gravity="center_vertical"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -66,18 +78,22 @@
         android:id="@+id/my_text2"
         android:textSize="40sp"
         android:textColor="#ff6d02"
-        android:layout_alignBottom="@+id/button2"
-        android:layout_alignLeft="@+id/button2"
-        android:paddingBottom="20dp"
-        android:paddingLeft="148dp"/>
+        android:layout_marginLeft="47dp"
+        android:layout_marginTop="7dp"
+        />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp">
     <Button
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="@drawable/button3"
-        android:id="@+id/button3"
-        android:layout_below="@+id/button2"
-        android:layout_marginTop="20dp"/>
+        android:id="@+id/button3"/>
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -86,9 +102,8 @@
         android:id="@+id/my_text3"
         android:textSize="40sp"
         android:textColor="#ff6d02"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_alignLeft="@+id/button3"
-        android:paddingBottom="20dp"
-        android:paddingLeft="120dp" />
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="7dp"/>
+    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

@@ -1,24 +1,43 @@
-package com.example.pin.itinerarytest;
+package com.example.user.travelapp;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity{
+public class ItineraryActivity extends AppCompatActivity{
+
+    Button btn1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_itinerary);
         ArrayList<Integer> arrayList_int = stringToIntegerArrayList(arrayList);
         EditText budgetEditText = (EditText) findViewById(R.id.budget);
+
+
+        final MediaPlayer mp1 = MediaPlayer.create(this, R.raw.weed);
+
+        btn1=(Button)findViewById(R.id.backItinerary);
+        btn1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+//                mp1.start();
+                Intent anyintent = new Intent(ItineraryActivity.this, HomeActivity.class);
+                startActivity(anyintent);
+            }
+        });
     }
 
     /**@param arraylist:
@@ -35,7 +54,7 @@ public class MainActivity extends AppCompatActivity{
 
         //store the strings into an arraylist
         if (arrayList.contains(locationChoice)) {
-            Toast.makeText(MainActivity.this,
+            Toast.makeText(ItineraryActivity.this,
                     "Location already chosen", Toast.LENGTH_LONG).show();
         } // if arrayList already has location, do nothing (only toast to inform user)
         else{
@@ -43,7 +62,7 @@ public class MainActivity extends AppCompatActivity{
         }
         StringBuilder builder = new StringBuilder();
         for (String location:arrayList){
-            builder.append(location + "\n");
+            builder.append("•  "+location + "\n");
         }
         itineraryList.setText(builder.toString());
     }
@@ -112,12 +131,12 @@ public class MainActivity extends AppCompatActivity{
             TripObject mostOptimal = ExhaustiveEnum.fullFunction(arrayList_int, getBudget());
             passOnResults(mostOptimal);
         } catch (NumberFormatException num_e){
-            Toast.makeText(MainActivity.this,
+            Toast.makeText(ItineraryActivity.this,
                     "Enter your budget", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
-            Toast.makeText(MainActivity.this,
+            Toast.makeText(ItineraryActivity.this,
                     "Empty Itinerary", Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this,
+            Toast.makeText(ItineraryActivity.this,
                     "Choose your location(s)", Toast.LENGTH_LONG).show();
         }
     }
@@ -138,12 +157,12 @@ public class MainActivity extends AppCompatActivity{
                 passOnResults_fast(smart);
             }
         } catch (NumberFormatException num_e){
-            Toast.makeText(MainActivity.this,
+            Toast.makeText(ItineraryActivity.this,
                     "Enter your budget", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
-            Toast.makeText(MainActivity.this,
+            Toast.makeText(ItineraryActivity.this,
                     "Empty Itinerary", Toast.LENGTH_LONG).show();
-            Toast.makeText(MainActivity.this,
+            Toast.makeText(ItineraryActivity.this,
                     "Choose your location(s)", Toast.LENGTH_LONG).show();
         }
 

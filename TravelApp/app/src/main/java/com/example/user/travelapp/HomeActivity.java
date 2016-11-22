@@ -31,9 +31,9 @@ public class HomeActivity extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-//                Intent anyintent = new Intent(HomeActivity.this, InfoActivity.class);
-//                startActivity(anyintent);
-                mp1.start();
+//                mp1.start();
+                Intent anyintent = new Intent(HomeActivity.this, ItineraryActivity.class);
+                startActivity(anyintent);
             }
         });
 
@@ -41,9 +41,9 @@ public class HomeActivity extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-//                Intent anyintent = new Intent(HomeActivity.this, InfoActivity.class);
-//                startActivity(anyintent);
-                mp2.start();
+//                mp2.start();
+                Intent anyintent = new Intent(HomeActivity.this, MapActivity.class);
+                startActivity(anyintent);
             }
         });
 
@@ -52,9 +52,9 @@ public class HomeActivity extends AppCompatActivity {
         btn3.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+//                mp3.start();
                 Intent anyintent = new Intent(HomeActivity.this, InfoActivity.class);
                 startActivity(anyintent);
-                mp3.start();
             }
                                });
 

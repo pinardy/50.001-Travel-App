@@ -21,12 +21,23 @@
         <activity
             android:name=".InfoActivity"
             android:label="@string/title_place_detail"
-            android:parentActivityName=".InfoActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".InfoActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.user.travelapp.InfoActivity" />
         </activity>
+        <activity android:name=".ItineraryActivity" />
+
+        <activity
+            android:name=".ExhaustiveActivity"
+            android:label="ExhaustiveActivity">
+        </activity>
+
+        <activity
+            android:name=".FastActivity"
+            android:label="FastActivity">
+        </activity>
+        <activity android:name=".MapActivity" />
     </application>
 
 </manifest>
