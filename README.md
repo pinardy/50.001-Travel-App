@@ -6,7 +6,7 @@ Function 1: Daily Itinerary Planning
 Function 2: Tourist Attraction Locator 
 Function 3: List of tourist attractions in Singapore
 
-<img src="https://github.com/pinardy/50.001-Travel-App/blob/master/TravelApp/app/src/main/res/drawable/travelpedia.png" width="200" height="200" />
+<img src="https://github.com/pinardy/50.001-Travel-App/blob/master/TravelApp/app/src/main/res/drawable/travelpedia.png"/>
 
 <u><b>Group members:</b></u>  
 1) Lim Wei Xuan  
