@@ -1,5 +1,5 @@
-# 50.001-Travel-App
-Travel app in Android
+# Travelpedia
+Travel app in Android for the 50.001 Information Systems and Design module
 
 In this project, we design and develop a travel app with several functions useful as a tourist in Singapore.  
 Function 1: Daily Itinerary Planning   
