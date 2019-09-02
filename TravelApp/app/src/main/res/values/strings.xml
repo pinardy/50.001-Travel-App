@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">TravelPedia</string>
+    <string name="information">Information</string>
+    <string name="location">Location</string>
+    <string name="itinerary">Itinerary</string>
+    <string name="title_place_list">Places</string>
+    <string name="title_place_detail">Place Detail</string>
+
+    <string-array name="locations">
+        <!--<item>Marina Bay Sands</item>-->
+        <item>Singapore Flyer</item>
+        <item>Vivo City</item>
+        <item>Resorts World Sentosa</item>
+        <item>Buddha Tooth Relic Temple</item>
+        <item>Zoo</item>
+    </string-array>
+</resources>
